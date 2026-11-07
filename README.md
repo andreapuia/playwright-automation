@@ -85,6 +85,8 @@ Bugs found by running Scenario 1 and Scenario 2 with every user accepted by the 
 | [BUG-005](docs/bugs/BUG-005.md) | Sorting by price has no effect | `error_user` | Medium | Medium |
 | [BUG-006](docs/bugs/BUG-006.md) | Checkout can be started with an empty cart | all users | Medium | Medium |
 | [BUG-007](docs/bugs/BUG-007.md) | Cart is shared between users after logout | all users | High | High |
+| [BUG-008](docs/bugs/BUG-008.md) | Upload accepts unsupported file types | Upload | Medium | Medium |
+| [BUG-009](docs/bugs/BUG-009.md) | Upload does not enforce the 15MB file size limit | Upload | Medium | Medium |
 | [PERF-001](docs/bugs/PERF-001.md) | Slow checkout flow | `performance_glitch_user` | Medium | Medium |
  
 For users with known bugs, I use `test.fail()`, add the bug ID to the test description and tag the test with `@known-bug`.
