@@ -34,12 +34,19 @@ npx playwright install
 ```
 
 ## Running Tests
+Using the npm scripts from `package.json`:
 ```bash
-npx playwright test                                  # all tests, all browsers
-npx playwright test --project=chromium               # all tests, Chromium only
+npm test                    # all tests, all browsers
+npm run test:chromium       # all tests, Chromium only
+npm run test:ui             # UI mode, for debugging
+npm run report              # open the HTML report
+```
+ 
+Or directly with Playwright:
+```bash
 npx playwright test tests/sauceDemo/login.spec.ts    # run a specific test file
-npx playwright test --ui                             # UI mode, for debugging
-npx playwright show-report                           # open the HTML report
+npx playwright test --grep-invert @known-bug         # skip tests marked with known bugs
+npx playwright test --grep @known-bug                # run only tests marked with known bugs
 ```
 
 ## Project Structure
@@ -62,19 +69,23 @@ npx playwright show-report                           # open the HTML report
 
 ## Known Bugs - Sauce Demo
  
-Bugs found by running Scenario 1 with every user accepted by the application.
- 
+Bugs found by running Scenario 1 and Scenario 2 with every user accepted by the application.
+
 **Browsers:** Chromium, Firefox, WebKit
-**Test:** `tests/sauceDemo/scenario1.spec.ts`
+**Tests:** `tests/sauceDemo/scenario1.spec.ts`, `tests/sauceDemo/scenario2.spec.ts` , `tests/sauceDemo/cart.spec.ts`
  
-## Summary
+### Summary
  
 | ID | Title | User | Severity | Priority |
 |---|---|---|---|---|
 | [BUG-001](docs/bugs/BUG-001.md) | Add to cart does not work for some products | `problem_user` | High | High |
 | [BUG-002](docs/bugs/BUG-002.md) | Add to cart fails without an error message | `error_user` | High | High |
 | [BUG-003](docs/bugs/BUG-003.md) | Inventory price differs from cart price | `visual_user` | High | High |
+| [BUG-004](docs/bugs/BUG-004.md) | Sorting by price has no effect | `problem_user` | Medium | Medium |
+| [BUG-005](docs/bugs/BUG-005.md) | Sorting by price has no effect | `error_user` | Medium | Medium |
+| [BUG-006](docs/bugs/BUG-006.md) | Checkout can be started with an empty cart | all users | Medium | Medium |
+| [BUG-007](docs/bugs/BUG-007.md) | Cart is shared between users after logout | all users | High | High |
 | [PERF-001](docs/bugs/PERF-001.md) | Slow checkout flow | `performance_glitch_user` | Medium | Medium |
  
-For users with known bugs, I use `test.fail()` and add the bug ID to the test description. 
+For users with known bugs, I use `test.fail()`, add the bug ID to the test description and tag the test with `@known-bug`.
 If a bug gets fixed, the test will fail, signaling that the marker should be removed.

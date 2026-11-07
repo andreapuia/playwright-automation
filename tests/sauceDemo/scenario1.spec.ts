@@ -13,13 +13,15 @@ for (const { user, knownBug, slow } of usersToTest) {
   test.describe(`user: ${user}`, () => {
     test.use({ user });
 
-    test('place an order with 3 most expensive products', async ({
+    test('place an order with 3 most expensive products', {
+      // permite rularea separata a testelor cu bug-uri cunoscute
+      tag: knownBug ? '@known-bug' : [],
+    }, async ({
       page,
       inventoryPage,
       cartPage,
       checkoutPage,
     }) => {
-
       test.fail(!!knownBug, knownBug);
       test.slow(!!slow, 'PERF-001: slow user');
 
@@ -42,6 +44,8 @@ for (const { user, knownBug, slow } of usersToTest) {
         for (const product of topProducts) {
           await inventoryPage.addToCart(product.name);
         }
+        
+        await expect(inventoryPage.cartBadge).toHaveText(String(topProducts.length));
       });
 
       await test.step('Verify products and prices in the cart', async () => {

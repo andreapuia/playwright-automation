@@ -17,8 +17,8 @@ export async function extractProducts(items: Locator): Promise<Product[]> {
   const products: Product[] = [];
 
   for (const item of await items.all()) {
-    const name = await item.locator('.inventory_item_name').innerText();
-    const priceText = await item.locator('.inventory_item_price').innerText();
+    const name = await item.locator('[data-test="inventory-item-name"]').innerText();
+    const priceText = await item.locator('[data-test="inventory-item-price"]').innerText();
 
     products.push({
       name,
