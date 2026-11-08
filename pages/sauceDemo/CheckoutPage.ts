@@ -25,7 +25,6 @@ export class CheckoutPage {
   }
 
   async fillInformation(info: { firstName: string; lastName: string; postalCode: string }) {
-
     await this.continueButton.waitFor();
 
     await this.firstNameInput.fill(info.firstName);

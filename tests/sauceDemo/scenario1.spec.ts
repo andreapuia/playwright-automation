@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/sauceDemoFixtures';
 import { USERS, CHECKOUT_DATA } from '../../testData/users';
 
 const usersToTest = [
@@ -14,7 +14,6 @@ for (const { user, knownBug, slow } of usersToTest) {
     test.use({ user });
 
     test('place an order with 3 most expensive products', {
-      // permite rularea separata a testelor cu bug-uri cunoscute
       tag: knownBug ? '@known-bug' : [],
     }, async ({
       page,
@@ -22,7 +21,7 @@ for (const { user, knownBug, slow } of usersToTest) {
       cartPage,
       checkoutPage,
     }) => {
-      test.fail(!!knownBug, knownBug);
+      //test.fail(!!knownBug, knownBug);
       test.slow(!!slow, 'PERF-001: slow user');
 
       const allProducts = await test.step('Extract all available products', async () => {
@@ -44,7 +43,7 @@ for (const { user, knownBug, slow } of usersToTest) {
         for (const product of topProducts) {
           await inventoryPage.addToCart(product.name);
         }
-        
+
         await expect(inventoryPage.cartBadge).toHaveText(String(topProducts.length));
       });
 

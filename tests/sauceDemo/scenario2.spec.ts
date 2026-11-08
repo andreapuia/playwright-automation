@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/sauceDemoFixtures';
 import { USERS } from '../../testData/users';
 
 const usersToTest = [
@@ -21,7 +21,7 @@ for (const { user, knownBug, slow } of usersToTest) {
     test('sort products by price', {
       tag: knownBug ? '@known-bug' : [],
     }, async ({ inventoryPage }) => {
-      test.fail(!!knownBug, knownBug);
+      //test.fail(!!knownBug, knownBug);
       test.slow(!!slow, 'PERF-001: slow user');
 
       const initialNames = (await inventoryPage.getProducts()).map(p => p.name).sort();

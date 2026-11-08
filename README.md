@@ -89,5 +89,7 @@ Bugs found by running Scenario 1 and Scenario 2 with every user accepted by the 
 | [BUG-009](docs/bugs/BUG-009.md) | Upload does not enforce the 15MB file size limit | Upload | Medium | Medium |
 | [PERF-001](docs/bugs/PERF-001.md) | Slow checkout flow | `performance_glitch_user` | Medium | Medium |
  
-For users with known bugs, I use `test.fail()`, add the bug ID to the test description and tag the test with `@known-bug`.
-If a bug gets fixed, the test will fail, signaling that the marker should be removed.
+Tests are executed with  assertions, including tests for users with known defects.
+Known defects are documented in docs/bugs/, and affected tests are tagged with @known-bug.
+When a test fails, the failure is investigated and linked to an existing bug report or documented as a new issue.
+Known bugs do not automatically change the test result to an expected failure.

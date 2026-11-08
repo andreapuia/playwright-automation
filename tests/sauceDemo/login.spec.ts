@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/sauceDemoFixtures';
 import { USERS, PASSWORD } from '../../testData/users';
 
 test.describe('Login', () => {
@@ -34,8 +34,8 @@ test.describe('Login', () => {
   }
 
   test('inventory is not accessible without login', async ({ page, loginPage }) => {
-    await page.goto('https://www.saucedemo.com/inventory.html');
-
+    await page.goto('/inventory.html');
+    
     await expect(loginPage.errorMessage).toContainText(
       "You can only access '/inventory.html' when you are logged in"
     );

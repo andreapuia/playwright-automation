@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/uiPlaygroundFixtures';
 
 test('click all buttons after scrolling', async ({ scrollToClickPage }) => {
 

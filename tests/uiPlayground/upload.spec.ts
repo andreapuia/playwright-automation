@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/uiPlaygroundFixtures';
 import { createFile, MAX_FILE_SIZE } from '../../testData/uploadFiles';
 
 test.describe('Upload - file types ', () => {
@@ -29,7 +29,7 @@ test.describe('Upload - file types ', () => {
         test(`unsupported type is rejected - ${file.name}`, {
             tag: '@known-bug',
         }, async ({ uploadPage }) => {
-            test.fail(true, 'BUG-008: Upload - unsupported file types are accepted');
+            //test.fail(true, 'BUG-008: Upload - unsupported file types are accepted');
 
             await uploadPage.uploadFiles([file]);
 
@@ -50,7 +50,7 @@ test.describe('Upload - file size ', () => {
     test('file over 15MB is rejected', {
         tag: '@known-bug',
     }, async ({ uploadPage }) => {
-        test.fail(true, 'BUG-009: Upload - files over the 15MB limit are accepted');
+        //test.fail(true, 'BUG-009: Upload - files over the 15MB limit are accepted');
 
         await uploadPage.uploadFiles([createFile('too-large.txt', 'text/plain', MAX_FILE_SIZE + 1)]);
 

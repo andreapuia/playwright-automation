@@ -39,7 +39,6 @@ export class InventoryPage {
   }
 
   async addToCart(productName: string) {
-
     const item = this.items.filter({
       has: this.page.getByText(productName, { exact: true }),
     });
@@ -56,7 +55,7 @@ export class InventoryPage {
     await expect(this.activeSortOption).toHaveText(SORT_LABELS[option]);
   }
 
-   async logout() {
+  async logout() {
     await this.menuButton.click();
     await this.logoutLink.click();
   }

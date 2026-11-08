@@ -11,7 +11,7 @@ export class ScrollToClickPage {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     this.pageScrollButton = page.locator('#scrollTarget1');
     this.containerScrollButton = page.locator('#scrollTarget2');
     this.nestedScrollButton = page.locator('#scrollTarget3');
@@ -21,7 +21,7 @@ export class ScrollToClickPage {
   }
 
   async goto() {
-    await this.page.goto('http://uitestingplayground.com/scrolltoclick');
+    await this.page.goto('/scrolltoclick');
   }
 
   async scrollAndClick(button: Locator) {

@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/sauceDemoFixtures';
 import { CHECKOUT_DATA } from '../../testData/users';
 
 test.describe('Checkout information - invalid classes', () => {
@@ -9,7 +9,6 @@ test.describe('Checkout information - invalid classes', () => {
     await inventoryPage.openCart();
     await cartPage.checkout();
   });
-
   
   const invalidData = [
     { name: 'empty first name', data: { ...CHECKOUT_DATA, firstName: '' }, error: 'First Name is required' },

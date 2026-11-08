@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/uiPlaygroundFixtures';
 import { UPLOAD_FILES } from '../../testData/uploadFiles';
 
 test('upload two files', async ({ uploadPage }) => {

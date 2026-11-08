@@ -12,7 +12,7 @@ export class UploadPage {
 
   constructor(page: Page) {
     this.page = page;
-  
+
     this.uploadFrame = page.frameLocator('iframe[src="/static/upload.html"]');
     this.fileInput = this.uploadFrame.locator('#browse');
     this.successMessage = this.uploadFrame.locator('.success-file');
@@ -21,14 +21,14 @@ export class UploadPage {
   }
 
   async goto() {
-    await this.page.goto('http://uitestingplayground.com/upload');
+    await this.page.goto('/upload');
   }
 
   async uploadFiles(files: UploadFile[]) {
     await this.fileInput.setInputFiles(files);
   }
 
-   async removeFile(index: number) {
+  async removeFile(index: number) {
     await this.fileItems.nth(index).locator('.file-actions svg').click();
   }
 }

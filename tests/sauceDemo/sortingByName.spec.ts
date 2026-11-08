@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/testFixtures';
+import { test, expect } from '../../fixtures/sauceDemoFixtures';
 
 test.describe('Inventory sorting - default state and sort by name', () => {
 
