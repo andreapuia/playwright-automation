@@ -26,9 +26,7 @@ test('auth via API and validate current user',
                 expect(typeof token).toBe('string');
                 expect(token.length).toBeGreaterThan(0);
 
-                const maskedToken = `${token.slice(0, 12)}...${token.slice(-6)}`;
-
-                console.log('JWT successfully extracted:', maskedToken);
+                console.log('JWT (accessToken):', token);
 
                 return token;
             }
@@ -53,9 +51,7 @@ test('auth via API and validate current user',
 
         await test.step('Get the current user with GET /auth/me',
             async () => {
-                const response = await dummyJsonClient.getCurrentUser(
-                    accessToken
-                );
+                const response = await dummyJsonClient.getCurrentUser(accessToken);
 
                 expect(response.status()).toBe(200);
 
@@ -77,24 +73,24 @@ test('GET /auth/me with an invalid token returns 401',
     }
 );
 
-test('modified JWT is rejected', { tag: ['@api', '@known-bug'] }, 
+test('modified JWT is rejected', { tag: ['@known-bug'] },
     async ({ dummyJsonClient }) => {
-    const loginResponse = await dummyJsonClient.login(API_USER.username, API_USER.password);
-    expect(loginResponse.status()).toBe(200);
+        const loginResponse = await dummyJsonClient.login(API_USER.username, API_USER.password);
+        expect(loginResponse.status()).toBe(200);
 
-    const { accessToken } = await loginResponse.json();
+        const { accessToken } = await loginResponse.json();
 
-    const modifiedToken = modifyJwtPayload(accessToken, { id: 2, username: 'michaelw' });
-    expect(decodeJwt(modifiedToken).payload.username).toBe('michaelw');
+        const modifiedToken = modifyJwtPayload(accessToken, { username: 'emilys1' });
+        expect(decodeJwt(modifiedToken).payload.username).toBe('emilys1');
 
-    const response = await dummyJsonClient.getCurrentUser(modifiedToken);
-    const body = await response.json();
-    console.log('Response for modified JWT:', response.status(), body);
+        const response = await dummyJsonClient.getCurrentUser(modifiedToken);
+        const body = await response.json();
+        console.log('Response for modified JWT:', response.status(), body);
 
-    
-    expect(response.status()).not.toBe(200);
-    expect(body.username).toBeUndefined();
 
-    // BUG-010: Modified JWT returns 500 instead of 401 on GET /auth/me
-    expect(response.status()).toBe(401);
-});
+        expect(response.status()).not.toBe(200);
+        expect(body.username).toBeUndefined();
+
+        // BUG-010: Modified JWT returns 500 instead of 401 on GET /auth/me
+        expect(response.status()).toBe(401);
+    });

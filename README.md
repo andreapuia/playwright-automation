@@ -7,7 +7,7 @@ This project contains automated UI and API tests using Playwright with TypeScrip
 - [UI Testing Playground](http://uitestingplayground.com/)
 - [DummyJSON API](https://dummyjson.com/)
 
-It follows Page Object Model (POM) for UI tests, a reusable API client for API tests, custom fixtures, and DRY principles.
+It follows Page Object Model (POM) for UI tests, a reusable API client for API tests, custom fixtures, and DRY principles
 
 ## Prerequisites
 Before running the tests, make sure the following tools are installed: 
@@ -37,7 +37,7 @@ npx playwright install
 Using the npm scripts from `package.json`:
 ```bash
 npm test                    # all tests, all browsers
-npm run test:chromium       # all tests, Chromium only
+npm run test:chromium       # UI tests, Chromium only
 npm run test:ui             # UI mode, for debugging
 npm run report              # open the HTML report
 ```
@@ -71,9 +71,32 @@ npx playwright test --project=api                    # run API tests only
 - `package.json`                 - project dependencies and npm scripts
 - `package-lock.json`            - stores the exact dependency versions to ensure consistent installations
 
+## Scenario 7 - JWT Inspection and Decoding
+
+To inspect the JWT token, I created a reusable `decodeJwt()` function in `utils/jwtUtils.ts`
+
+The function:
+1. Splits the JWT into three parts: Header, Payload, and Signature
+2. Decodes the header and payload using Base64URL
+3. Converts the decoded data into JSON objects
+
+Steps for the API test `scenario7.spec.ts`:
+* Extract the JWT from the `accessToken` field after a successful login
+* Log the complete JWT 
+* Check that the headert contains an algorithm (`alg`)
+* Verify that username in the payload matches the authenticated user
+* Check that the token contains an expiration time (`exp`) that is in the future
+* Use the original JWT as a Bearer token in the `GET /auth/me` request and validate the returned user information
+
+Two negative tests:
+* Invalid token: Verify that `GET /auth/me` returns HTTP `401`
+* Modified token: Change the username in the JWT payload without updating the signature and verify that the API rejects the token (returns `500` instead of `401`, see [BUG-010](docs/bugs/BUG-010.md))
+
+**Note:** Decoding a JWT shows its content, but it does not verify the signature
+
 ## Known Bugs
  
-The following issues were observed or reported during testing. 
+The following issues were observed or reported during testing
 
 **Browsers:** Chromium, Firefox, WebKit
  
@@ -94,4 +117,4 @@ The following issues were observed or reported during testing.
 | [PERF-001](docs/bugs/PERF-001.md) | Slow checkout flow | `performance_glitch_user` | Medium | Medium |
 
 Known defects are documented in `docs/bugs/`, and affected tests are tagged with `@known-bug`.
-Tests use normal assertions, so known bugs are reported as failures.
+Tests use normal assertions, so known bugs are reported as failures
