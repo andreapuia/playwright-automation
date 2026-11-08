@@ -12,3 +12,7 @@
 **Expected result:** the flow duration is comparable to `standard_user` (~3-4s).
  
 **Observation:** degraded user experience. Login needs a 10s timeout in the fixture, and in WebKit the full flow exceeds the default 30s test timeout, so the test is marked with `test.slow()`.
+
+**Test:**
+- `tests/sauceDemo/scenario1.spec.ts` - `place an order with 3 most expensive products` (user: `performance_glitch_user`, marked with `test.slow()`)
+- `tests/sauceDemo/scenario2.spec.ts` - `sort products by price` (user: `performance_glitch_user`, marked with `test.slow()`)

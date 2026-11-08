@@ -2,12 +2,12 @@
 
 ## Overview
 
-This project contains automated tests for web applications: 
+This project contains automated UI and API tests using Playwright with TypeScript for web applications: 
 - [Sauce Demo](https://www.saucedemo.com/)
 - [UI Testing Playground](http://uitestingplayground.com/)
 - [DummyJSON API](https://dummyjson.com/)
 
-The project uses Playwright with TypeScript and follows Page Object Model (POM), test fixtures, and DRY principles.
+It follows Page Object Model (POM) for UI tests, a reusable API client for API tests, custom fixtures, and DRY principles.
 
 ## Prerequisites
 Before running the tests, make sure the following tools are installed: 
@@ -19,7 +19,7 @@ Before running the tests, make sure the following tools are installed:
 
 Clone the repository:
 ```bash
-git clone https://github.com/andreapuia/playwright-automation 
+git clone https://github.com/andreapuia/playwright-automation
 cd playwright-automation
 ```
 
@@ -44,39 +44,42 @@ npm run report              # open the HTML report
  
 Or directly with Playwright:
 ```bash
+npx playwright test                                  # run all UI and API tests
 npx playwright test tests/sauceDemo/login.spec.ts    # run a specific test file
 npx playwright test --grep-invert @known-bug         # skip tests marked with known bugs
 npx playwright test --grep @known-bug                # run only tests marked with known bugs
+npx playwright test --project=api                    # run API tests only
 ```
 
 ## Project Structure
 
-- `.github/workflows/`       - Github Actions to run the tests over CI
-- `docs/bugs/`               - bug reports for the issues found during testing
-- `fixtures/`                - custom playwright fixtures used to initialize page objects and share test setup logic
-- `models/`                  - shared data models, such as the `Product` interface
-- `pages/`                   - POM classes, including page locators and reusable UI interactions
-- `pages/sauceDemo/`        
-- `pages/uiPlayground/`  
-- `testData/`                - test data used  (users, password, checkout information)
-- `tests/`                   - test scenarios
-- `tests/sauceDemo/`          
-- `tests/uiPlayground/` 
-- `utils/`                   - contains reusable functions for product extraction and price calculations
-- `playwright.config.ts`     - all the basic configurations for Playwright including report generation, tracing etc
-- `package.json`             - defines the project dependencies and npm scripts
-- `package-lock.json`        - stores the exact dependency versions to ensure consistent installations
+- `.github/workflows/`           - Github Actions to run the tests over CI
+- `api/`                         - reusable http methods
+- `docs/bugs/`                   - bug reports for the issues found during testing
+- `fixtures/`                    - custom playwright fixtures used to initialize page objects and share test setup logic
+- `models/`                      - shared data models, such as the `Product` interface
+- `pages/`                       - POM classes, including page locators and reusable UI interactions
+    - `pages/sauceDemo/`         - Sauce Demo page objects
+    - `pages/uiPlayground/`      - UI Testing Playground page objects
+- `testData/`                    - test data used  (UI test data and DummyJSON credentials)    
+- `tests/`                   
+    - `tests/sauceDemo/`         - Sauce Demo test scenarios
+    - `tests/uiPlayground/`      - UI Testing Playground test scenarios
+    - `tests/apiDummyJSON/`      - DummyJSON API tests
+- `utils/`                       - reusable helpers, including jwtUtils.ts
+- `playwright.config.ts`         - all the basic configurations for Playwright including report generation, tracing etc
+- `package.json`                 - project dependencies and npm scripts
+- `package-lock.json`            - stores the exact dependency versions to ensure consistent installations
 
-## Known Bugs - Sauce Demo
+## Known Bugs
  
-Bugs found by running Scenario 1 and Scenario 2 with every user accepted by the application.
+The following issues were observed or reported during testing. 
 
 **Browsers:** Chromium, Firefox, WebKit
-**Tests:** `tests/sauceDemo/scenario1.spec.ts`, `tests/sauceDemo/scenario2.spec.ts` , `tests/sauceDemo/cart.spec.ts`
  
 ### Summary
  
-| ID | Title | User | Severity | Priority |
+| ID | Title | User/App | Severity | Priority |
 |---|---|---|---|---|
 | [BUG-001](docs/bugs/BUG-001.md) | Add to cart does not work for some products | `problem_user` | High | High |
 | [BUG-002](docs/bugs/BUG-002.md) | Add to cart fails without an error message | `error_user` | High | High |
@@ -87,9 +90,8 @@ Bugs found by running Scenario 1 and Scenario 2 with every user accepted by the 
 | [BUG-007](docs/bugs/BUG-007.md) | Cart is shared between users after logout | all users | High | High |
 | [BUG-008](docs/bugs/BUG-008.md) | Upload accepts unsupported file types | Upload | Medium | Medium |
 | [BUG-009](docs/bugs/BUG-009.md) | Upload does not enforce the 15MB file size limit | Upload | Medium | Medium |
+| [BUG-010](docs/bugs/BUG-010.md) | Modified JWT payload returns 500 instead of 401 | API Authentication | Medium | Medium |
 | [PERF-001](docs/bugs/PERF-001.md) | Slow checkout flow | `performance_glitch_user` | Medium | Medium |
- 
-Tests are executed with  assertions, including tests for users with known defects.
-Known defects are documented in docs/bugs/, and affected tests are tagged with @known-bug.
-When a test fails, the failure is investigated and linked to an existing bug report or documented as a new issue.
-Known bugs do not automatically change the test result to an expected failure.
+
+Known defects are documented in `docs/bugs/`, and affected tests are tagged with `@known-bug`.
+Tests use normal assertions, so known bugs are reported as failures.

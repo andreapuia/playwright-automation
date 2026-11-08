@@ -15,12 +15,13 @@ test.describe('Inventory sorting - default state and sort by name', () => {
     ];
 
     for (const sort of nameSorts) {
-        test(`sort by ${sort.label}`, async ({ inventoryPage }) => {
-            
-            await inventoryPage.sortBy(sort.option);
+        test(`sort by ${sort.label}`,
+            async ({ inventoryPage }) => {
 
-            const names = (await inventoryPage.getProducts()).map(p => p.name);
-            expect(names).toEqual([...names].sort(sort.compare));
-        });
+                await inventoryPage.sortBy(sort.option);
+
+                const names = (await inventoryPage.getProducts()).map(p => p.name);
+                expect(names).toEqual([...names].sort(sort.compare));
+            });
     }
 });

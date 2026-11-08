@@ -27,16 +27,17 @@ for (const { user, knownBug, slow } of usersToTest) {
       const initialNames = (await inventoryPage.getProducts()).map(p => p.name).sort();
 
       for (const sort of priceSorts) {
-        await test.step(`Sort by price ${sort.name}`, async () => {
-          await inventoryPage.sortBy(sort.option);
+        await test.step(`Sort by price ${sort.name}`,
+          async () => {
+            await inventoryPage.sortBy(sort.option);
 
-          const products = await inventoryPage.getProducts();
-          const prices = products.map(p => p.price);
-          console.log(`Price ${sort.name}:`, prices);
+            const products = await inventoryPage.getProducts();
+            const prices = products.map(p => p.price);
+            console.log(`Price ${sort.name}:`, prices);
 
-          expect(prices).toEqual([...prices].sort(sort.compare));
-          expect(products.map(p => p.name).sort()).toEqual(initialNames);
-        });
+            expect(prices).toEqual([...prices].sort(sort.compare));
+            expect(products.map(p => p.name).sort()).toEqual(initialNames);
+          });
       }
     });
   });

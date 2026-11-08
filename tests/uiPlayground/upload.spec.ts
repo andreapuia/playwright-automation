@@ -12,12 +12,13 @@ test.describe('Upload - file types ', () => {
     ];
 
     for (const file of supportedFiles) {
-        test(`supported type is accepted - ${file.name}`, async ({ uploadPage }) => {
-            await uploadPage.uploadFiles([file]);
+        test(`supported type is accepted - ${file.name}`,
+            async ({ uploadPage }) => {
+                await uploadPage.uploadFiles([file]);
 
-            await expect(uploadPage.fileNames).toHaveText([file.name]);
-            await expect(uploadPage.successMessage).toHaveText('1 file(s) selected');
-        });
+                await expect(uploadPage.fileNames).toHaveText([file.name]);
+                await expect(uploadPage.successMessage).toHaveText('1 file(s) selected');
+            });
     }
 
     const unsupportedFiles = [
@@ -41,11 +42,12 @@ test.describe('Upload - file types ', () => {
 
 test.describe('Upload - file size ', () => {
 
-    test('file of exactly 15MB is accepted', async ({ uploadPage }) => {
-        await uploadPage.uploadFiles([createFile('max-size.txt', 'text/plain', MAX_FILE_SIZE)]);
+    test('file of exactly 15MB is accepted',
+        async ({ uploadPage }) => {
+            await uploadPage.uploadFiles([createFile('max-size.txt', 'text/plain', MAX_FILE_SIZE)]);
 
-        await expect(uploadPage.successMessage).toHaveText('1 file(s) selected');
-    });
+            await expect(uploadPage.successMessage).toHaveText('1 file(s) selected');
+        });
 
     test('file over 15MB is rejected', {
         tag: '@known-bug',
